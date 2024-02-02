@@ -40,7 +40,7 @@ bootloader_api::entry_point!(my_entry_point, config = &BOOTLOADER_CONFIG);
 use lazy_static::lazy_static;
 use spin::Mutex;
 
-use crate::{std::input_str, task::{simple_executor::SimpleExecutor, Task}};
+use crate::{task::{simple_executor::SimpleExecutor, Task}};
 
 //use lazy static to allow declaration of static without initializing with a constant value
 //Mutex from spin is used for control of threads access.
@@ -153,12 +153,7 @@ fn my_entry_point(boot_info: &'static mut bootloader_api::BootInfo) -> ! {
     interrupts::init();
 
     //Let's experience getting string from keyboard and saving into a variable for use
-    print!("Enter string: ");
-    let input = match input_str() {
-        Some(value) => value,
-        None => "".to_owned()
-    };
-    println!("\nString entered is '{}'", input);
+    input_str!("Enter string: ");
 
 
     // invoke a breakpoint exception for test
